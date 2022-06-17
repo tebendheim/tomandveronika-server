@@ -19,7 +19,7 @@ router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
 
 
-router.get('/', (req, res) {
+router.get('/', (req, res) => {
   const path = `/api/item/`;
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
