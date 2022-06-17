@@ -30,7 +30,7 @@ app.use(helmet())
 app.use(morgan('combined'))
 app.use(cors()) //Uten denne vil man få nettwork error.
 app.use(express.json())
-app.use('/api/youtube',youtube)
+app.use('/api/youtube', youtube)
 app.use('/api/sendgrid', sendgrid)
 app.use('/api/youtubepost', youtubepost)
 app.use('/api/test', test)

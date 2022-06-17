@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "server for tom and vero",
   "main": "Index.js",
-  "engines":{
-    "node":"14.X"
+  "engines": {
+    "node": "14.X"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
@@ -39,6 +39,7 @@
     "helmet": "^5.1.0",
     "http": "^0.0.1-security",
     "http-errors": "^2.0.0",
+    "https": "^1.0.0",
     "iconv-lite": "^0.4.24",
     "inherits": "^2.0.4",
     "ipaddr.js": "^1.9.1",
