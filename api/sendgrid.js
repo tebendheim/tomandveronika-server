@@ -24,7 +24,7 @@ router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
 
 
-router.post('/', async(req, res) => {
+router.post('/', async function sendgrid(req, res) {
 	  const body = req.body.data
   const captcha = body['token']
   const capURL= `https://www.google.com/recaptcha/api/siteverify`

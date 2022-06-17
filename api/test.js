@@ -19,7 +19,7 @@ router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
 
 
-router.get('/', async(req, res) => {
+router.get('/', async function test(req, res) {
   try{
     res.json({
       status:200,
