@@ -7,9 +7,10 @@ const morgan = require('morgan')
 const client = require('@sendgrid/mail');
 
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+router.use(function(req, res, next) {
+  res.header({
+  	"Access-Control-Allow-Origin": "*", 
+  	"Access-Control-Allow-Headers":"Origin, X-Requested-With, Content-Type, Accept"});
   next();
 });
 
@@ -54,7 +55,7 @@ router.post('/', async(req, res) => {
     }
 try{
       const gridResponse = await client.send(message);
-      res.status(200).json({'body':['kommer denne opp nå?']}).headers("Access-Control-Allow-Origin", "*")
+      res.status(200).json({'body':['kommer denne opp nå?']});
       console.log(gridResponse)
       return(gridResponse)
     } catch(error) {
