@@ -6,6 +6,13 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const client = require('@sendgrid/mail');
 
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //client.setApiKey(process.env.SENDGRID_API_KEY);
 //const bodyParser = require('body-parser')
 
