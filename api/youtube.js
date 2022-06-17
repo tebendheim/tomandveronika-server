@@ -13,7 +13,7 @@ router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
 
 
-router.get('/', async(req, res) => {    
+router.get('/', async function youtube(req, res) {    
   const options={
     method:"GET",
 //url:`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${process.env.PLAYLISTID}&key=${process.env.API_KEY_YOUTUBE}`,
