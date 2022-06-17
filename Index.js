@@ -9,6 +9,7 @@ const client = require('@sendgrid/mail');
 const youtube =require('./api/youtube');
 const sendgrid = require('./api/sendgrid');
 const youtubepost = require('./api/youtubepost');
+const test = require('./api/test')
 
 //client.setApiKey(process.env.SENDGRID_API_KEY);
 //const bodyParser = require('body-parser')
@@ -32,6 +33,7 @@ app.use(express.json())
 app.use('/api/youtube',youtube)
 app.use('/api/sendgrid', sendgrid)
 app.use('/api/youtubepost', youtubepost)
+app.use('/api/test', test)
 
 
 app.listen(port, () => {console.log(`Server is running on port ${port}`)}) //Denne setter i gang listening to server

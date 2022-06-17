@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const cors = require('cors')
-const Axios = require('axios')
-const helmet = require('helmet')
-const morgan = require('morgan')
+const express = require('express');
+const router = express.Router();
+const cors = require('cors');
+const Axios = require('axios');
+const helmet = require('helmet');
+const morgan = require('morgan');
 const client = require('@sendgrid/mail');
 
 let cachedData
