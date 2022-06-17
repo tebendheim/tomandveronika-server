@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.router()
+const router = express.Router()
 const cors = require('cors')
 const Axios = require('axios')
 const helmet = require('helmet')
@@ -19,7 +19,7 @@ router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
 
 
-router.get('/', async(req, res) => {
+router.post('/', async(req, res) => {
   console.log(req.body)
   if (true){
     const url =`https://youtube.googleapis.com/youtube/v3/playlistItems?`;

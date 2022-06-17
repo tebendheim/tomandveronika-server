@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.router()
+const router = express.Router()
 const cors = require('cors')
 const Axios = require('axios')
 const helmet = require('helmet')
