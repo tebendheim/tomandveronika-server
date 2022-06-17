@@ -47,7 +47,7 @@ router.post('/', async(req, res) => {
     }
 try{
       const gridResponse = await client.send(message);
-      res.status(200).json({'body':['kommer denne opp nå?']})
+      res.status(200).json({'body':['kommer denne opp nå?']}).headers("Access-Control-Allow-Origin", "*")
       console.log(gridResponse)
       return(gridResponse)
     } catch(error) {
