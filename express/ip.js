@@ -9,7 +9,11 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 const client = require('@sendgrid/mail');
 const rateLimit = require('express-rate-limit')
+
+let count = 0;
 const router = express.Router();
+
+
 require('dotenv').config()
 router.use(helmet())
 router.use(morgan('combined'))
@@ -17,27 +21,16 @@ router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
 
 
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 2, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-})
 
 
-router.get('/', apiLimiter, (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/html' });
-  res.write('<h1>Hello from Express.js!</h1>');
-  res.end();
-});
+router.get('/', (request, response) => {
 
-router.get('/ip', (request, response) => response.send(request.ip))
+  count++
+  response.json(count)
+  });
 
-app.use(bodyParser.json());
-app.use('/api/server', router);  // path must route to lambda
 
-app.set('trust proxy', 1)
-
+app.use('/api/ip', router);  // path must route to lambda
 
 
 module.exports = app;
