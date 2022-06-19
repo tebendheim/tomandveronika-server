@@ -22,7 +22,7 @@ let cachedTime;
 
 
 // Denne bruker jeg.
-router.get('/', apiLimiter(2,2) , async(req, res) => {
+router.get('/', apiLimiter(20,2) , async(req, res) => {
   if (cachedData && cachedTime > Date.now()-3*60*60*1000)/*Oppdateres hver 3 timer*/{
     res.json(cachedData)
     return;

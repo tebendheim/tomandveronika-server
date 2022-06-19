@@ -4,13 +4,14 @@ const app = express();
 const Axios = require('axios')
 const client = require('@sendgrid/mail');
 const router = express.Router();
+const apiLimiter =require('../middleware/ratelimiter')
 require('dotenv').config()
 router.use(express.json())
 const captcha = require('../middleware/captcha')
 
 
 
-router.post('/', async(req, res) => {
+router.post('/', apiLimiter(2,2) async(req, res) => {
   if (!req.body.data){
         res.status(400).json({'errors': ['Not authorized request']})
     return;
