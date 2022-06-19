@@ -1,27 +1,30 @@
 'use strict';
 const express = require('express');
-const serverless = require('serverless-http');
 const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors')
 const Axios = require('axios')
-const helmet = require('helmet')
-const morgan = require('morgan')
 const client = require('@sendgrid/mail');
-
-
 const router = express.Router();
 require('dotenv').config()
-router.use(helmet())
-router.use(morgan('combined'))
-router.use(cors()) //Uten denne vil man få nettwork error.
 router.use(express.json())
-
+const captcha = require('../middleware/captcha')
 
 
 
 router.post('/', async(req, res) => {
+  if (!req.body.data){
+        res.status(400).json({'errors': ['Not authorized request']})
+    return;
+  }
   const body = req.body.data
+  const resCaptcha = captcha(body['token'])
+  console.log(resCaptcha)
+  if (!resCaptcha){
+    res.status(400).json({'errors': ['it seems to be an error with your verification']})
+    return;
+  } 
+  
+
+/*
   const captcha = body['token']
   const capURL= `https://www.google.com/recaptcha/api/siteverify`
   const capParams={
@@ -37,6 +40,8 @@ router.post('/', async(req, res) => {
     res.status(400).json({'errors': ['it seems to be an error with your verification']})
     return;
   } //
+
+  */
 
   //Denne res skal kommenters bort når hele funksjonen skal brukse.
   //res.status(200).json({'body':['Is a human']})
@@ -67,14 +72,17 @@ try{
 
 
 router.get('/', (req, res) => {
+  const rescaptcha=captcha(true)
+  if (!rescaptcha){
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.write('<h1>Captcha was wrong</h1>');
+    res.end();
+    }
   res.writeHead(200, { 'Content-Type': 'text/html' });
   res.write('<h1>Hello from Express.js! sendgrid</h1>');
   res.end();
 });
 
 
-app.use('/api/sendgrid', router);  // path must route to lambda
 
-
-module.exports = app;
-module.exports.handler = serverless(app);
+module.exports = router;
