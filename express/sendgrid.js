@@ -11,7 +11,9 @@ const captcha = require('../middleware/captcha')
 
 
 
-router.post('/', apiLimiter(2,2) async(req, res) => {
+
+
+router.post('/', apiLimiter(2,2) , async(req, res) => {
   if (!req.body.data){
         res.status(400).json({'errors': ['Not authorized request']})
     return;
