@@ -44,7 +44,7 @@ router.get('/', apiLimiter(20,2) , async(req, res) => {
       const ax = await Axios.request(options);
       cachedTime = Date.now()
       cachedData = ax.data
-      res.json(ax.data)
+      res.json(ax.data).headers({'Access-Control-Allow-Origin':'http://play.google.com'})
   } catch(err){
       res.send(err)
   }
