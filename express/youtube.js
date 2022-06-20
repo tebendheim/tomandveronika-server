@@ -32,7 +32,7 @@ router.get('/', apiLimiter(20,2) , async(req, res) => {
 //url:`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${process.env.PLAYLISTID}&key=${process.env.API_KEY_YOUTUBE}`,
     url:`https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet`,
     headers:{
-      'content-type':'application/JSON',
+      'content-type':'application/x-www-form-urlencoded',
       },
     params: {
       maxResults:req.headers['maxresults'],
