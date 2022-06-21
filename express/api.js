@@ -15,6 +15,7 @@ const apiLimiter = require('../middleware/ratelimiter')
 const youtube = require('./youtube')
 const ip = require('./ip')
 const sendgrid = require('./sendgrid')
+const sendinblue = require('./sendinblue')
 
 
 require('dotenv').config()
@@ -36,8 +37,9 @@ router.get('/', apiLimiter, (req, res) => {
 app.use(bodyParser.json());
 
 router.use('/ip', ip);
-router.use('/youtube', youtube)
-router.use('/sendgrid', sendgrid)
+router.use('/youtube', youtube);
+router.use('/sendgrid', sendgrid);
+router.use('/sendinblue', sendinblue);
 
 app.use('/api', router);
   // path must route to lambda
