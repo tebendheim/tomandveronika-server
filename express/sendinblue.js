@@ -55,7 +55,7 @@ router.post('/',apiLimiter(2,2), async(req,res)=>{
      const msg =  {
         sender,
         to: receivers,
-        subject: 'Subscribe to Cules Coding to become a developer',
+        subject: 'Form submitted from tomandveronika.com',
         textContent: `
         Hi ${firstName},
         The form you have submitted from tomandveronika.com have been submitted.
