@@ -11,7 +11,7 @@ router.use(express.json())
 const captcha = require('../middleware/captcha')
 
 
-router.post('/', async(req,res)=>{
+router.post('/',apiLimiter(2,2), async(req,res)=>{
 
  //sjekker om det eksisterer en "body"
   if (!req.body.data){
