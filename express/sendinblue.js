@@ -62,9 +62,14 @@ router.post('/',apiLimiter(2,2), async(req,res)=>{
 
 
         Name: ${firstName} ${lastName}
-        email: ${email}
+        E-mail: ${email}
+
+
         Message: 
-        	"${message}"
+
+        "${message}"
+
+
 
         Thank you so much for getting in touch with us.
         We will respond to your email as soon as possible
