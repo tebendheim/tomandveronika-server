@@ -58,7 +58,7 @@ router.post('/',apiLimiter(2,2), async(req,res)=>{
         subject: 'Form submitted from tomandveronika.com',
         textContent: `
         Hi ${firstName},
-        The form you have submitted from tomandveronika.com have been submitted.
+        This is a comfirmation that your form has been submitted.
 
 
         Name: ${firstName} ${lastName}
@@ -72,7 +72,7 @@ router.post('/',apiLimiter(2,2), async(req,res)=>{
 
 
         Thank you so much for getting in touch with us.
-        We will respond to your email as soon as possible
+        We will respond to your email as soon as possible.
 
         Best regards,
         Tom & veronika
