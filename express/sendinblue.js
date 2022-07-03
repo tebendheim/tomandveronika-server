@@ -45,16 +45,22 @@ router.post('/',apiLimiter(2,2), async(req,res)=>{
     	name: 'Tom-Elbin Bendheim',
 		}
 	const receivers = [
-	    {
+	   /* {
 	        email: process.env.MY_EMAIL_TO  //body['email'],
-	    },
+	    },*/
 	    {
 	    	email: `${email}`
 	    }
 	]
+    const myEmail = [
+        {
+            email: process.env.MY_EMAIL_TO
+        }
+    ]
      const msg =  {
         sender,
         to: receivers,
+        bcc: myEmail,
         subject: 'Form submitted from tomandveronika.com',
         textContent: `
         Hi ${firstName},
