@@ -17,11 +17,11 @@ router.use(morgan('combined'));
 		origin: '*',
 	})
 ); //Uten denne vil man få nettwork error. */
-router.use(express.json());
 
 // get usermodel
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
+
 router.post('/', async (req, res) => {
 	//destructure email from request
 	const { email } = req.body.data;
@@ -65,7 +65,7 @@ router.post('/', async (req, res) => {
 			token: webToken,
 		});
 		await token.save();
-
+		/*
 		//@ Sending mail:
 		const name = `${user.name}`;
 		const UrlLink = `https://www.tomandveronika.com/forgotpassword/reset/${webToken}`; //webToken er uhashet token
@@ -104,6 +104,7 @@ Tom & Veronika
 		//	sendMail(msg);
 		res.status(200).json({ link: webToken, url: UrlLink });
 		return;
+        */
 	} catch (err) {
 		res.status(400).json({ msg: err });
 		return;
