@@ -18,7 +18,6 @@ router.use(morgan('combined'));
 	})
 ); //Uten denne vil man få nettwork error. */
 router.use(express.json());
-//const bcrypt = require('bcrypt');
 
 // get usermodel
 const User = require('../models/User');
@@ -102,7 +101,7 @@ Tom & Veronika
 				role: 'frontend',
 			},
 		};
-		sendMail(msg);
+		//	sendMail(msg);
 		res.status(200).json({ link: webToken, url: UrlLink });
 		return;
 	} catch (err) {

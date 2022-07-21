@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 const normalize = require('normalize-url');
 require('dotenv').config();
 const connect = require('../functions/db');
@@ -58,13 +58,14 @@ router.post(
 			}
 
 			//Encrypt password
-			const salt = await bcrypt.genSalt(10);
-			const cryptPassword = await bcrypt.hash(password, salt);
+			//const salt = await bcrypt.genSalt(10);
+			//const cryptPassword = await bcrypt.hash(password, salt);
 
 			const user = new User({
 				name,
 				email,
-				password: cryptPassword,
+				//password: cryptPassword,
+				password: password,
 				admin: admin,
 			});
 
