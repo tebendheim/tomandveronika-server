@@ -14,6 +14,7 @@ require('dotenv').config();
 // get usermodel
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
+router.use(cors());
 
 // get usermodel
 // @route    GET api/auth
@@ -248,5 +249,6 @@ router.post(
 	}
 );
 //*/
+router.set('trust proxy', 1);
 
 module.exports = router;
