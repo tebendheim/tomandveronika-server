@@ -100,12 +100,14 @@ router.post(
 	'/forgotpassword',
 	captcha,
 	/**/ async (req, res) => {
-		const { email } = req.body;
+		const { email } = req.body.data;
+		console.log(email);
 		connect();
 		try {
 			// See if user exists
-			let user = await User.findOne({ email });
+			const user = await User.findOne({ email });
 			if (!user) {
+				console.log('no user'); //fjernes
 				return res.status(200).json({
 					errors: [{ msg: 'If user Exists, an email will be sendt' }],
 				});
@@ -172,9 +174,11 @@ router.post(
 				},
 			};
 			sendMail(msg);
-			return res.status(200).json({ link: webToken, url: UrlLink }); // dette må endres fjernes før deployment. riktig token skal ikke sendes til frontend
+			res.status(200).json({ link: webToken, url: UrlLink }); // dette må endres fjernes før deployment. riktig token skal ikke sendes til frontend
+			return;
 		} catch (err) {
-			return res.status(400).json({ errors: [{ msg: err }] });
+			res.status(400).json(err); //.json({ errors: [{ msg: err }] });
+			return;
 		}
 	}
 ); //*/

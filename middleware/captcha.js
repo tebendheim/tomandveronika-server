@@ -26,11 +26,9 @@ const captcha = async (token) => {
 module.exports = captcha;
 //*/
 
-
 module.exports = async function (req, res, next) {
 	const body = req.body.data; ///setting the body
-	const token = body['token'];
-	const rescaptcha = token;
+	const rescaptcha = body['token'];
 	const capURL = `https://www.google.com/recaptcha/api/siteverify`;
 	const capParams = {
 		params: {
@@ -43,9 +41,11 @@ module.exports = async function (req, res, next) {
 	const isHuman = capResponse.data['success'];
 	//const isHuman = false // Dette er bare for testingsmuligheter
 	if (!isHuman) {
+		console.log('not human');
 		res
 			.status(400)
 			.json({ errors: ['it seems to be an error with your verification'] });
+		return;
 	}
 	next();
 };
