@@ -23,7 +23,8 @@ const test = require('./test');
 require('dotenv').config();
 router.use(helmet());
 router.use(morgan('combined'));
-app.use(cors({ origin: '*' })); //Uten denne vil man få nettwork error.
+app.use(cors());
+router.use(cors()); //Uten denne vil man få nettwork error.
 
 router.get('/', apiLimiter, (req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
