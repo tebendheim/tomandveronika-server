@@ -23,6 +23,11 @@ const User = require('../models/User');
 const Token = require('../models/resetPassword');
 
 router.post('/', async (req, res) => {
+	//destructure email from request
+	const { email } = req.body.data;
+	//connecting to database
+	connect();
+
 	res.json('OK');
 });
 
