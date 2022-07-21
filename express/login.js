@@ -9,7 +9,6 @@ const auth = require('../middleware/auth');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
-router.use(cors());
 
 require('dotenv').config();
 // get usermodel
@@ -97,7 +96,7 @@ router.post(
 
 router.post(
 	'/forgotpassword',
-	captcha,
+	//captcha,
 	/**/ async (req, res) => {
 		const { email } = req.body.data;
 		console.log(email);
