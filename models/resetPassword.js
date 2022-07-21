@@ -16,4 +16,5 @@ const resetPasswordSchema = new mongoose.Schema({
 		expires: 3600,
 	},
 });
+
 module.exports = mongoose.model('resetPassword', resetPasswordSchema);

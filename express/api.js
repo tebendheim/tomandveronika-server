@@ -45,6 +45,10 @@ router.use('/test', test);
 router.use('/forgotpassword', forgotPassword);
 
 app.use('/api', router);
+app.use(function (req, res, next) {
+	// Website you wish to allow to connect
+	res.setHeader('Access-Control-Allow-Origin', '*');
+});
 // path must route to lambda
 
 app.set('trust proxy', 1);
