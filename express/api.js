@@ -23,6 +23,14 @@ const test = require('./test');
 require('dotenv').config();
 router.use(helmet());
 router.use(morgan('combined'));
+app.use(function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requiseted-With, Content-Type, Accept'
+	);
+	next();
+});
 app.use(cors());
 router.use(cors()); //Uten denne vil man få nettwork error.
 
