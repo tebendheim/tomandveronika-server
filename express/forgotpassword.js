@@ -20,8 +20,6 @@ router.use(
 router.use(express.json());
 const bcrypt = require('bcrypt');
 
-//const crypt = require('../functions/crypt');
-
 // get usermodel
 const User = require('../models/User');
 const Token = require('../models/resetPassword');

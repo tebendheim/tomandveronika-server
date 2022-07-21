@@ -23,7 +23,7 @@ const test = require('./test');
 require('dotenv').config();
 router.use(helmet());
 router.use(morgan('combined'));
-app.use(cors()); //Uten denne vil man få nettwork error.
+app.use(cors({ origin: '*' })); //Uten denne vil man få nettwork error.
 
 router.get('/', apiLimiter, (req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -45,10 +45,6 @@ router.use('/test', test);
 router.use('/forgotpassword', forgotPassword);
 
 app.use('/api', router);
-app.use(function (req, res, next) {
-	// Website you wish to allow to connect
-	res.setHeader('Access-Control-Allow-Origin', '*');
-});
 // path must route to lambda
 
 app.set('trust proxy', 1);
