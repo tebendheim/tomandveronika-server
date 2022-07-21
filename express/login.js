@@ -96,7 +96,7 @@ router.post(
 
 router.post(
 	'/forgotpassword',
-	//captcha,
+	captcha,
 	/**/ async (req, res) => {
 		const { email } = req.body.data;
 		console.log(email);
