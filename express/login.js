@@ -9,6 +9,7 @@ const auth = require('../middleware/auth');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
+const cors = require('cors');
 
 require('dotenv').config();
 // get usermodel
