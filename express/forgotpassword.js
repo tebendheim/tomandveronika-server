@@ -27,8 +27,39 @@ router.post('/', async (req, res) => {
 	const { email } = req.body.data;
 	//connecting to database
 	connect();
+	try {
+		//see if user exists
+		const user = await User.findOne({ email });
+		if (!user) {
+			res.status(200).json({
+				errors: [{ msg: 'If user Exists, an email will be sendt' }],
+			});
+			return;
+		}
 
-	res.json('OK');
+		//see if a token exists
+		const oldToken = await Token.findOne({ userId: user._id });
+		if (oldToken) {
+			await oldToken.deleteOne();
+		}
+
+		const payload = {
+			user: {
+				id: user._id,
+			},
+		};
+
+		const secret = process.env.JWT_RESET_PASSWORD;
+
+		const webToken = jwt.sign(payload, secret, {
+			algorithm: 'HS256',
+			expiresIn: 3600,
+		});
+		res.json('OK');
+	} catch (err) {
+		res.status(400).json({ msg: err });
+		return;
+	}
 });
 
 module.exports = router;
