@@ -9,13 +9,12 @@ const auth = require('../middleware/auth');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
+router.use(cors());
 
 require('dotenv').config();
 // get usermodel
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
-const { link } = require('graceful-fs');
-const { user } = require('osenv');
 
 // get usermodel
 // @route    GET api/auth
