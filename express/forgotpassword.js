@@ -7,16 +7,16 @@ const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
 require('dotenv').config();
-const cors = require('cors');
+//const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 router.use(helmet());
 router.use(morgan('combined'));
-router.use(
+/*router.use(
 	cors({
 		origin: '*',
 	})
-); //Uten denne vil man få nettwork error.
+); //Uten denne vil man få nettwork error. */
 router.use(express.json());
 //const bcrypt = require('bcrypt');
 

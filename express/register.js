@@ -8,6 +8,8 @@ require('dotenv').config();
 const connect = require('../functions/db');
 const cap = require('../functions/firstLetter');
 const captcha = require('../middleware/captcha');
+const cors = require('cors');
+router.use(cors());
 
 // get usermodel
 const User = require('../models/User');
@@ -26,6 +28,7 @@ router.post(
 			'Please enter a password with 6 or more characters'
 		).isLength({ min: 6 }),
 	],
+	captcha,
 	async (req, res) => {
 		const errors = validationResult(req.body);
 		if (!errors.isEmpty()) {
