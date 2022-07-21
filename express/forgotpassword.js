@@ -65,7 +65,7 @@ router.post(
 					deretter vil jeg bruke token som var med i linken når jeg skal finne user.*/
 
 			const name = `${user.name}`;
-			const UrlLink = `http://www.tomandveronika.com/forgotpassword/reset/${webToken}`; //webToken er uhashet token
+			const UrlLink = `https://www.tomandveronika.com/forgotpassword/reset/${webToken}`; //webToken er uhashet token
 			const sender = {
 				email: process.env.MY_EMAIL,
 				name: 'Tom & Veronika',

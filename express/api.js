@@ -17,7 +17,7 @@ const ip = require('./ip');
 const sendgrid = require('./sendgrid');
 const sendinblue = require('./sendinblue');
 const login = require('./login');
-const forgotpassword = require('./forgotpassword');
+const forgotPassword = require('./forgotpassword');
 const register = require('./register');
 const test = require('./test');
 
@@ -43,7 +43,7 @@ router.use('/sendinblue', sendinblue);
 router.use('/login', login);
 router.use('/register', register);
 router.use('/test', test);
-router.use('/forgotpassword', forgotpassword);
+router.use('/forgotpassword', forgotPassword);
 
 app.use('/api', router);
 // path must route to lambda
