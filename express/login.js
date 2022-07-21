@@ -15,9 +15,10 @@ require('dotenv').config();
 // get usermodel
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
-router.use(cors());
+const { append } = require('vary');
+app.use(cors());
 
-router.use(function (req, res, next) {
+app.use(function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
 	res.header(
 		'Access-Control-Allow-Headers',
@@ -259,6 +260,8 @@ router.post(
 	}
 );
 //*/
-router.set('trust proxy', 1);
 
-module.exports = router;
+app.set('trust proxy', 1);
+app.use('/', router);
+
+module.exports = app;
