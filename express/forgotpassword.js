@@ -9,8 +9,18 @@ require('dotenv').config();
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
 
-router.post('/', (req, res) => {
-	res.json('OK');
+router.post('/', async (req, res) => {
+	//destructure email from request
+	const { email } = req.body.data;
+	//connecting to database
+	connect();
+	try {
+		res.json(email);
+		return;
+	} catch (err) {
+		res.status(400).json({ msg: err });
+		return;
+	}
 });
 
 module.exports = router;
