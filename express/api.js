@@ -47,7 +47,6 @@ router.use('/forgotpassword', forgotPassword);
 
 app.use('/api', router);
 // path must route to lambda
-// path must route to lambda
 
 app.set('trust proxy', 1);
 

@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const router = express.Router();
 //const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
@@ -7,9 +6,6 @@ const bcrypt = require('bcryptjs');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
-router.use(express.json());
-const cors = require('cors');
-router.use(cors());
 
 require('dotenv').config();
 // get usermodel
@@ -101,8 +97,8 @@ router.post(
 			sendMail(msg);
 			res
 				.status(200)
-				.json({ link: webToken, url: UrlLink })
-				.header({ 'Access-Control-Allow-Origin': '*' }); // dette må endres fjernes før deployment. riktig token skal ikke sendes til frontend
+				.header('Access-Control-Allow-Origin', '*')
+				.json({ link: webToken, url: UrlLink });
 			return;
 		} catch (err) {
 			res.status(400).json(err); //.json({ errors: [{ msg: err }] });
