@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
 	connect();
 	try {
 		res.json(email);
+		console.log(email);
 		return;
 	} catch (err) {
 		res.status(400).json({ msg: err });
