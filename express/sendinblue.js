@@ -10,27 +10,17 @@ require('dotenv').config();
 router.use(express.json());
 const captcha = require('../middleware/captcha');
 
-router.post('/', apiLimiter(2, 2), async (req, res) => {
+router.post('/', apiLimiter(50, 2), captcha, async (req, res) => {
 	//sjekker om det eksisterer en "body"
 	if (!req.body.data) {
 		res.status(400).json({ errors: ['Not authorized request'] });
 		return;
 	}
 
-	const body = req.body.data; ///setting the body
-
-	//reCaptcha
-	const resCaptcha = captcha(body['token']);
-	console.log(resCaptcha);
-	if (!resCaptcha) {
-		res
-			.status(400)
-			.json({ errors: ['it seems to be an error with your verification'] });
-		return;
-	}
+	
 
 	// setting apiKeys og starting the service
-
+	const body = req.body.data; ///setting the body
 	const email = body['email'];
 	const firstName = body['firstName'];
 	const lastName = body['lastName'];
@@ -50,9 +40,11 @@ router.post('/', apiLimiter(2, 2), async (req, res) => {
 			email: `${email}`,
 		},
 	];
-	const myEmail = {
-		email: process.env.MY_EMAIL_TO,
-	};
+	const myEmail = [
+		{
+			email: process.env.MY_EMAIL_TO,
+		},
+	];
 	const msg = {
 		sender,
 		to: receivers,
