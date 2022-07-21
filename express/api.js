@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const client = require('@sendgrid/mail');
 const router = express.Router();
 router.use(express.json());
 const apiLimiter = require('../middleware/ratelimiter');
