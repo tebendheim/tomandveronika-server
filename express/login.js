@@ -98,7 +98,8 @@ router.post(
 
 router.post(
 	'/forgotpassword',
-	/*captcha, */ async (req, res) => {
+	captcha,
+	/**/ async (req, res) => {
 		const { email } = req.body;
 		connect();
 		try {
@@ -191,55 +192,59 @@ router.post(
 	headers: x-auth-token
 	body: newPassword, repeatPassword */
 
-router.post('/resetpassword', async (req, res) => {
-	connect();
-	try {
-		const secret = process.env.JWT_RESET_PASSWORD;
-		const reqToken = req.headers['x-auth-token'];
-		let decoded;
-		if (!reqToken) {
-			return res.status(400).json({ errors: [{ msg: 'missing token' }] });
-		}
-		//@destructure token & // @check if valid token
+router.post(
+	'/resetpassword',
+	captcha,
+	/**/ async (req, res) => {
+		connect();
 		try {
-			decoded = jwt.verify(reqToken, secret, { algorithm: 'HS256' });
+			const secret = process.env.JWT_RESET_PASSWORD;
+			const reqToken = req.headers['x-auth-token'];
+			let decoded;
+			if (!reqToken) {
+				return res.status(400).json({ errors: [{ msg: 'missing token' }] });
+			}
+			//@destructure token & // @check if valid token
+			try {
+				decoded = jwt.verify(reqToken, secret, { algorithm: 'HS256' });
+			} catch (err) {
+				return res.status(400).json({ errors: [{ msg: 'token error' }] });
+			}
+
+			//@find user._id fra token
+			const user = decoded.user.id;
+
+			//@connect to database and get token from database
+
+			const databaseToken = await Token.findOne({ userId: user });
+			const storedToken = databaseToken.token;
+
+			//@comparing reqToken and storedToken.
+			const validPassword = bcrypt.compare(reqToken, storedToken);
+			//@sending error if token is not equal to each other.
+			if (!validPassword) {
+				return res.status(400).json({ errors: [{ msg: 'Server Error' }] });
+			}
+
+			//@ getting new password from req
+			const { newPassword, repeatPassword } = req.body;
+
+			if (newPassword != repeatPassword) {
+				return res.status(400).json({ errors: [{ msg: 'Server Error' }] });
+			}
+			// hasing new password
+			const salt = await bcrypt.genSalt(10);
+			const hash = await bcrypt.hash(newPassword, salt);
+
+			//@getting user and updating password.
+			const baseUser = await User.findOne({ _id: user });
+			await baseUser.updateOne({ password: hash });
+			res.json('Password is updated.');
 		} catch (err) {
-			return res.status(400).json({ errors: [{ msg: 'token error' }] });
+			console.error(err);
 		}
-
-		//@find user._id fra token
-		const user = decoded.user.id;
-
-		//@connect to database and get token from database
-
-		const databaseToken = await Token.findOne({ userId: user });
-		const storedToken = databaseToken.token;
-
-		//@comparing reqToken and storedToken.
-		const validPassword = bcrypt.compare(reqToken, storedToken);
-		//@sending error if token is not equal to each other.
-		if (!validPassword) {
-			return res.status(400).json({ errors: [{ msg: 'Server Error' }] });
-		}
-
-		//@ getting new password from req
-		const { newPassword, repeatPassword } = req.body;
-
-		if (newPassword != repeatPassword) {
-			return res.status(400).json({ errors: [{ msg: 'Server Error' }] });
-		}
-		// hasing new password
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(newPassword, salt);
-
-		//@getting user and updating password.
-		const baseUser = await User.findOne({ _id: user });
-		await baseUser.updateOne({ password: hash });
-		res.json('Password is updated.');
-	} catch (err) {
-		console.error(err);
 	}
-});
+);
 //*/
 
 module.exports = router;
