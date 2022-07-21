@@ -55,9 +55,12 @@ router.post('/', async (req, res) => {
 			algorithm: 'HS256',
 			expiresIn: 3600,
 		});
-		res.json('OK');
+		res.header('Access-Control-Allow-Origin', '*').json('OK');
 	} catch (err) {
-		res.status(400).json({ msg: err });
+		res
+			.status(400)
+			.header('Access-Control-Allow-Origin', '*')
+			.json({ msg: err });
 		return;
 	}
 });
