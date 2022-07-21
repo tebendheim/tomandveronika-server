@@ -18,7 +18,7 @@ router.use(
 	})
 ); //Uten denne vil man få nettwork error.
 router.use(express.json());
-const bcrypt = require('bcrypt');
+//const bcrypt = require('bcrypt');
 
 // get usermodel
 const User = require('../models/User');
@@ -58,12 +58,12 @@ router.post('/', async (req, res) => {
 		});
 
 		//hash
-		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(webToken, salt);
+		//const salt = await bcrypt.genSalt(10);
+		//const hash = await bcrypt.hash(webToken, salt);
 
 		const token = new Token({
 			userId: user._id,
-			token: hash,
+			token: webToken,
 		});
 		await token.save();
 
