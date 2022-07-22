@@ -12,6 +12,8 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 router.use(helmet());
 router.use(morgan('combined'));
+
+
 /*router.use(
 	cors({
 		origin: '*',
@@ -29,7 +31,7 @@ router.post('/', cors({ origin: '*' }), async (req, res) => {
 	connect();
 	//see if a token exists
 	try {
-		const user = await User.find({ email });
+		const user = User.find({ email });
 		res.json(user);
 		return;
 	} catch (err) {
