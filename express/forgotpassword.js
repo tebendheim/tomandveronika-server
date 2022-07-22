@@ -29,7 +29,9 @@ router.post('/', async (req, res) => {
 	connect();
 	//see if a token exists
 	try {
-		res.header('Access-Control-Allow-Origin', '*').json('OK');
+		const user = await User.find({ email });
+
+		res.header('Access-Control-Allow-Origin', '*').json(user);
 		return;
 	} catch (err) {
 		res
