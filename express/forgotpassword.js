@@ -12,11 +12,11 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 router.use(helmet());
 router.use(morgan('combined'));
-router.use(
+/*router.use(
 	cors({
 		origin: '*',
 	})
-); //Uten denne vil man få nettwork error. */
+); */ //Uten denne vil man få nettwork error. */
 
 // get usermodel
 const User = require('../models/User');
@@ -27,19 +27,9 @@ router.post('/', async (req, res) => {
 	const { email } = req.body.data;
 	//connecting to database
 	connect();
+	//see if a token exists
 	try {
-		//see if user exists
-		const user = await User.findOne({ email });
-		if (!user) {
-			res.status(200).json({
-				errors: [{ msg: 'If user Exists, an email will be sendt' }],
-			});
-			return;
-		}
-
-		//see if a token exists
-
-		res.header('Access-Control-Allow-Origin', '*').send('OK');
+		res.header('Access-Control-Allow-Origin', '*').json('OK');
 		return;
 	} catch (err) {
 		res
