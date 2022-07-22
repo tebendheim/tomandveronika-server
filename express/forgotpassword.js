@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const app = express();
-const router = express.Router();
 const jwt = require('jsonwebtoken');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
@@ -13,7 +12,9 @@ const User = require('../models/User');
 const Token = require('../models/resetPassword');
 app.post('/', async (req, res) => {
 	const { email } = req.body.data;
-	res.json(email);
+	connect();
+	const user = await User.find({ email });
+	res.json(user);
 	return;
 });
 
