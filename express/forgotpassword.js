@@ -38,24 +38,9 @@ router.post('/', async (req, res) => {
 		}
 
 		//see if a token exists
-		const oldToken = await Token.findOne({ userId: user._id });
-		if (oldToken) {
-			await oldToken.deleteOne();
-		}
 
-		const payload = {
-			user: {
-				id: user._id,
-			},
-		};
-
-		const secret = process.env.JWT_RESET_PASSWORD;
-
-		const webToken = jwt.sign(payload, secret, {
-			algorithm: 'HS256',
-			expiresIn: 3600,
-		});
 		res.header('Access-Control-Allow-Origin', '*').send('OK');
+		return;
 	} catch (err) {
 		res
 			.status(400)
