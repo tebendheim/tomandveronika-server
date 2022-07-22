@@ -31,10 +31,11 @@ router.post('/', headers, cors(), async (req, res) => {
 	connect();
 	//see if a token exists
 	try {
-		const user = User.find({ email });
+		const user = await User.find({ email });
 		res.json(user);
 		return;
 	} catch (err) {
+		console.log(err);
 		res
 			.status(400)
 			.header('Access-Control-Allow-Origin', '*')
