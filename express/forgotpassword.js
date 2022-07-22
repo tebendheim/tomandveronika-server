@@ -1,14 +1,24 @@
 'use strict';
 const express = require('express');
+const app = express();
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 require('dotenv').config();
+const cors = require('cors');
+app.use(cors());
 
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
+app.post('/', async (req, res) => {
+	const { email } = req.body.data;
+	res.json(email);
+	return;
+});
 
+module.exports = app;
+/*
 router.post('/', async (req, res) => {
 	//destructure email from request
 	const { email } = req.body.data;
@@ -27,3 +37,4 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+*/
