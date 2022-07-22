@@ -22,7 +22,7 @@ router.use(morgan('combined'));
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
 
-router.post('/', cors(), async (req, res) => {
+router.post('/', cors({ origin: '*' }), async (req, res) => {
 	//destructure email from request
 	const { email } = req.body.data;
 	//connecting to database
