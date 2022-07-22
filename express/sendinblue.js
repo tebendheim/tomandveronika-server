@@ -10,14 +10,12 @@ require('dotenv').config();
 router.use(express.json());
 const captcha = require('../middleware/captcha');
 
-router.post('/', apiLimiter(50, 2), captcha, async (req, res) => {
+router.post('/', apiLimiter(2, 2), captcha, async (req, res) => {
 	//sjekker om det eksisterer en "body"
 	if (!req.body.data) {
 		res.status(400).json({ errors: ['Not authorized request'] });
 		return;
 	}
-
-	
 
 	// setting apiKeys og starting the service
 	const body = req.body.data; ///setting the body
