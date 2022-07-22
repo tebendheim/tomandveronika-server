@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
+const headers = require('../middleware/headers');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
@@ -12,7 +13,6 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 router.use(helmet());
 router.use(morgan('combined'));
-
 
 /*router.use(
 	cors({
@@ -24,7 +24,7 @@ router.use(morgan('combined'));
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
 
-router.post('/', cors({ origin: '*' }), async (req, res) => {
+router.post('/', headers, cors(), async (req, res) => {
 	//destructure email from request
 	const { email } = req.body.data;
 	//connecting to database
