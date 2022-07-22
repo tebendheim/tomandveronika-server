@@ -7,6 +7,7 @@ const captcha = require('../middleware/captcha');
 require('dotenv').config();
 const cors = require('cors');
 app.use(cors());
+app.options('*', cors());
 
 const User = require('../models/User');
 const Token = require('../models/resetPassword');
