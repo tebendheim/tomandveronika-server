@@ -23,14 +23,20 @@ const test = require('./test');
 require('dotenv').config();
 router.use(helmet());
 router.use(morgan('combined'));
-app.all('*', function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-	res.header('Access-Control-Allow-Headers', 'Content-Type');
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+	);
+	res.setHeader(
+		'Access-Control-Allow-Methods',
+		'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+	);
 	next();
 });
-app.use(cors());
-router.use(cors()); //Uten denne vil man få nettwork error.
+//app.use(cors());
+//router.use(cors()); //Uten denne vil man få nettwork error.
 
 router.get('/', apiLimiter, (req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
