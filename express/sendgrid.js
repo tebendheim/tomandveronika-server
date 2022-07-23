@@ -61,7 +61,7 @@ router.post('/', apiLimiter(2, 2), captcha, async (req, res) => {
 
 router.get('/', (req, res) => {
 	res.writeHead(200, { 'Content-Type': 'text/html' });
-	res.write('<h1>Hello from Express.js! sendgrid</h1>');
+	res.write('<h1>Hello from Express.js! sendgrid ny test</h1>');
 	res.end();
 });
 
