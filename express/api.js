@@ -35,14 +35,12 @@ app.use((req, res, next) => {
 	);
 	next();
 });
-//app.use(cors());
+app.use(
+	cors({
+		origin: '*',
+	})
+);
 //router.use(cors()); //Uten denne vil man få nettwork error.
-
-router.get('/', apiLimiter, (req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/html' });
-	res.write('<h1>Hello from Express.js!</h1>');
-	res.end();
-});
 
 //router.get('/ip', (request, response) => response.send(request.ip))
 
