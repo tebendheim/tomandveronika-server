@@ -1,13 +1,35 @@
 'use strict';
 const express = require('express');
-const serverless = require('serverless-http');
+
 const app = express();
-const bodyParser = require('body-parser');
+app.use(express.json());
+
+//app.use(express.urlencoded({ extended: true }));
+
+app.use((_, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*'); // or 'localhost:8888'
+	res.setHeader('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+	res.setHeader(
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
+	);
+	return next();
+}); // sets headers before routes */
+
+/*
 const cors = require('cors');
+app.use(
+	cors({
+		origin: '*',
+	})
+);
+*/
+const serverless = require('serverless-http');
+const bodyParser = require('body-parser');
+const router = express.Router();
 const helmet = require('helmet');
 const morgan = require('morgan');
-const router = express.Router();
-router.use(express.json());
+
 const apiLimiter = require('../middleware/ratelimiter');
 
 //import modules
@@ -23,23 +45,7 @@ const test = require('./test');
 require('dotenv').config();
 router.use(helmet());
 router.use(morgan('combined'));
-app.use((req, res, next) => {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
-	);
-	res.setHeader(
-		'Access-Control-Allow-Methods',
-		'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-	);
-	next();
-});
-app.use(
-	cors({
-		origin: '*',
-	})
-);
+
 //router.use(cors()); //Uten denne vil man få nettwork error.
 
 //router.get('/ip', (request, response) => response.send(request.ip))

@@ -47,7 +47,7 @@ router.post('/', captcha, async (req, res) => {
 		});
 
 		const salt = await bcrypt.genSalt(10);
-		 const tokenHash = await bcrypt.hash(webToken, salt);
+		const tokenHash = await bcrypt.hash(webToken, salt);
 
 		const token = new Token({
 			userId: user._id,
@@ -93,10 +93,7 @@ router.post('/', captcha, async (req, res) => {
 			},
 		};
 		sendMail(msg);
-		res
-			.status(200)
-			.header('Access-Control-Allow-Origin', '*')
-			.json({ link: webToken, url: UrlLink });
+		res.status(200).json({ link: webToken, url: UrlLink });
 		return;
 	} catch (err) {
 		res.status(400).json(err); //.json({ errors: [{ msg: err }] });
