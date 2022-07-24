@@ -51,7 +51,7 @@ router.post('/', captcha, async (req, res) => {
 
 		const token = new Token({
 			userId: user._id,
-			token: webToken,
+			token: tokenHash,
 		});
 		await token.save();
 
