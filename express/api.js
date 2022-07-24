@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-//app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 app.use((_, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*'); // or 'localhost:8888'
@@ -23,7 +23,7 @@ app.use(
 		origin: '*',
 	})
 );
-*/
+// Sets headers before routes*/
 const serverless = require('serverless-http');
 const bodyParser = require('body-parser');
 const router = express.Router();
