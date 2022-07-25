@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.urlencoded({ extended: true }));
 
 app.use((_, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*'); // or 'localhost:8888'
@@ -16,7 +16,6 @@ app.use((_, res, next) => {
 	return next();
 }); // sets headers before routes */
 
-/*
 const cors = require('cors');
 app.use(
 	cors({
@@ -25,7 +24,6 @@ app.use(
 );
 // Sets headers before routes*/
 const serverless = require('serverless-http');
-const bodyParser = require('body-parser');
 const router = express.Router();
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -43,23 +41,21 @@ const register = require('./register');
 const test = require('./test');
 
 require('dotenv').config();
-router.use(helmet());
-router.use(morgan('combined'));
+app.use(helmet());
+app.use(morgan('combined'));
 
 //router.use(cors()); //Uten denne vil man få nettwork error.
 
 //router.get('/ip', (request, response) => response.send(request.ip))
 
-app.use(bodyParser.json());
-
-router.use('/ip', ip);
-router.use('/youtube', youtube);
-router.use('/sendgrid', sendgrid);
-router.use('/sendinblue', sendinblue);
-router.use('/login', login);
-router.use('/register', register);
-router.use('/test', test);
-router.use('/forgotpassword', forgotPassword);
+app.use('/api/ip', ip);
+app.use('/api/youtube', youtube);
+app.use('/api/sendgrid', sendgrid);
+app.use('/api/sendinblue', sendinblue);
+app.use('/api/login', login);
+app.use('/api/register', register);
+app.use('/api/test', test);
+app.use('/api/forgotpassword', forgotPassword);
 
 app.use('/api', router);
 // path must route to lambda
