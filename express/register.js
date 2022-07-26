@@ -3,6 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 const normalize = require('normalize-url');
 require('dotenv').config();
 const connect = require('../functions/db');
@@ -32,6 +33,9 @@ router.post(
 			min: 6,
 		}),
 	],
+	cors({
+		origin: '*',
+	}),
 	//captcha,
 	async (req, res) => {
 		const errors = validationResult(req.body);
