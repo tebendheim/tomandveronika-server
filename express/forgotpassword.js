@@ -7,6 +7,8 @@ const bcrypt = require('bcryptjs');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
+const Sib = require('sib-api-v3-sdk');
+const client = Sib.ApiClient.instance;
 
 require('dotenv').config();
 // get usermodel
@@ -92,7 +94,14 @@ router.post('/', captcha, async (req, res) => {
 				role: 'frontend',
 			},
 		};
-		sendMail(msg);
+		//sendMail(msg);
+		//@sending the mail
+		const apiKey = client.authentications['api-key'];
+		apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
+		const tranEmailApi = new Sib.TransactionalEmailsApi();
+		await tranEmailApi.sendTransacEmail(msg);
+
+		//send response
 		res.status(200).json({ link: webToken, url: UrlLink });
 		return;
 	} catch (err) {
