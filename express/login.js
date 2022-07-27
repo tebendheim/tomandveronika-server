@@ -92,6 +92,7 @@ router.post(
 						UserId: user.id,
 						name: user.name,
 						email: user.email,
+						Roles:roles,
 					});
 				}
 			);
