@@ -1,5 +1,3 @@
-const axios = require('axios');
-const Axios = require('axios');
 const Sib = require('sib-api-v3-sdk');
 const client = Sib.ApiClient.instance;
 require('dotenv').config();
