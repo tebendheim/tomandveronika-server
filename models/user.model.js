@@ -13,18 +13,13 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	admin: {
-		type: Boolean,
-		default: false,
-	},
-	showAdmin: {
-		type: Boolean,
-		default: false,
-	},
-	resetLink: {
-		data: String,
-		default: '',
-	},
+
+	roles: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'RoleSchema',
+		},
+	],
 	date: {
 		type: Date,
 		default: Date.now,

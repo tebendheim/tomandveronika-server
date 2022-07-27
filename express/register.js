@@ -11,7 +11,9 @@ const cap = require('../functions/firstLetter');
 const captcha = require('../middleware/captcha');
 
 // get usermodel
-const User = require('../models/User');
+const db = require('../models');
+const User = db.user;
+const Role = db.role;
 
 //@route    POST api/register
 // @desc    register user
@@ -81,8 +83,10 @@ router.post(
 				email,
 				//password: cryptPassword,
 				password: cryptPassword,
-				admin: admin,
 			});
+
+			const role = Role.findOne({ name: 'user' });
+			user.roles = role._id;
 
 			await user.save();
 

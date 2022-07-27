@@ -15,8 +15,8 @@ const cors = require('cors');
 
 require('dotenv').config();
 // get usermodel
-const User = require('../models/User');
-const Token = require('../models/resetPassword');
+const User = require('../models/user.model');
+const Token = require('../models/resettoken.model');
 const { append } = require('vary');
 app.use(cors());
 
@@ -69,7 +69,10 @@ router.post(
 					.status(400)
 					.json({ errors: [{ msg: 'Invalid credentials' }] });
 			}
-
+			var roles = [];
+			user.roles.map((i) => {
+				roles.push('ROLE_' + i.name.toUpperCase());
+			});
 			// Retur json webtoken
 			const payload = {
 				user: {
@@ -84,7 +87,12 @@ router.post(
 				},
 				(err, token) => {
 					if (err) throw err;
-					res.json({ token });
+					res.json({
+						accessToken: token,
+						UserId: user.id,
+						name: user.name,
+						email: user.email,
+					});
 				}
 			);
 		} catch (err) {
@@ -93,8 +101,6 @@ router.post(
 		}
 	}
 );
-
-
 
 //@path	/login/resetpassword
 /*@todo

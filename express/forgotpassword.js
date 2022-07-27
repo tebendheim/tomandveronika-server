@@ -12,8 +12,8 @@ const client = Sib.ApiClient.instance;
 
 require('dotenv').config();
 // get usermodel
-const User = require('../models/User');
-const Token = require('../models/resetPassword');
+const User = require('../models/user.model');
+const Token = require('../models/resettoken.model');
 
 //@path: /forgotpassword
 //@ public
