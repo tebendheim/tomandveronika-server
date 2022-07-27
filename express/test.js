@@ -19,15 +19,21 @@ router.get(
 	cors({ origin: 'http://localhost:8888' }),
 	async (req, res) => {
 		connect();
-		const Name = req.params.role;
+		const roleName = req.params.role;
 		//check if role with name already exists
-		const oldRole = Role.findOne({ Name });
+		const oldRole = Role.findOne({ name: roleName });
+		console.log(oldRole);
+		console.log(roleName);
+		/*
 		if (oldRole) {
-			res.status(400).json({ error: { msg: 'Role already exists' } });
+			res.status(400).json({
+				error: { msg: 'Role already exists' },
+			});
 			return;
 		}
+		*/
 		const role = new Role({
-			name: Name,
+			name: roleName,
 		});
 		await role.save();
 		res.json({ msg: role });

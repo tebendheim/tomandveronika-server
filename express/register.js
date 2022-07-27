@@ -78,7 +78,7 @@ router.post(
 			const salt = await bcrypt.genSalt(10);
 			const cryptPassword = await bcrypt.hash(password, salt);
 
-			const role = Role.findOne({ name: 'user' });
+			const role = await Role.findOne({ name: 'user' });
 			const user = new User({
 				name,
 				email,
