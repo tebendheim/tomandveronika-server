@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const app = express();
-const { check, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const auth = require('../middleware/auth');
@@ -39,8 +39,8 @@ router.get('/', auth, async (req, res) => {
 router.post(
 	'/',
 	[
-		check('email', 'Please enter a valid email').isEmail(),
-		check('password', 'Password is required').exists(),
+		body('email', 'Please enter a valid email').isEmail(),
+		body('password', 'Password is required').exists(),
 	],
 	captcha,
 	apiLimiter(2, 2),
