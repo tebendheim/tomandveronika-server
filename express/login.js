@@ -7,9 +7,8 @@ const bcrypt = require('bcryptjs');
 const auth = require('../middleware/auth');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
+const apiLimiter = require('../middleware/ratelimiter');
 router.use(express.json());
-const cors = require('cors');
-const captcha = require('../middleware/captcha');
 
 require('dotenv').config();
 // get usermodel
@@ -17,7 +16,6 @@ const db = require('../models');
 const User = db.user;
 const Token = db.resettoken;
 const Role = db.role;
-app.use(cors());
 
 // get usermodel
 // @route    GET api/auth
@@ -135,6 +133,7 @@ router.post(
 router.post(
 	'/resetpassword',
 	captcha,
+	apiLimiter(2, 2),
 	/**/ async (req, res) => {
 		connect();
 		try {

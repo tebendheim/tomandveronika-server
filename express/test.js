@@ -12,10 +12,12 @@ const connect = require('../functions/db');
 require('dotenv').config();
 const auth = require('../middleware/auth');
 const db = require('../models');
+const apiLimiter = require('../middleware/ratelimiter');
 const Role = db.role;
 
 router.get(
 	'/:role',
+	apiLimiter(2, 2),
 	cors({ origin: 'http://localhost:8888' }),
 	async (req, res) => {
 		connect();

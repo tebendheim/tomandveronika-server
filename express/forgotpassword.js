@@ -7,7 +7,9 @@ const bcrypt = require('bcryptjs');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
 const sendMail = require('../functions/sendResetMail');
+const apiLimiter = require('../middleware/ratelimiter');
 const Sib = require('sib-api-v3-sdk');
+
 const client = Sib.ApiClient.instance;
 
 require('dotenv').config();
@@ -20,7 +22,7 @@ const Token = require('../models/resettoken.model');
 // @todo    Lage token med JWT som skal sendes ved på linken. her må også databasen oppdateres med token.
 //@todo: lage link som skal sendes i mailen og teste om mailen fungerer. Må også oppdatere user for å sette token
 
-router.post('/', captcha, async (req, res) => {
+router.post('/', captcha, apiLimiter(2,2), async (req, res) => {
 	const { email } = req.body.data;
 	console.log(email);
 	connect();
