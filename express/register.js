@@ -7,8 +7,8 @@ const cors = require('cors');
 const normalize = require('normalize-url');
 require('dotenv').config();
 const connect = require('../functions/db');
-const cap = require('../functions/firstLetter');
 const captcha = require('../middleware/captcha');
+const apiLimiter = require('../middleware/ratelimiter');
 
 // get usermodel
 const db = require('../models');
@@ -35,10 +35,11 @@ router.post(
 			min: 6,
 		}),
 	],
+	captcha,
+	apiLimiter(2, 2),
 	cors({
 		origin: '*',
 	}),
-	//captcha,
 	async (req, res) => {
 		const errors = validationResult(req.body);
 		if (!errors.isEmpty()) {
@@ -84,7 +85,7 @@ router.post(
 				email,
 				//password: cryptPassword,
 				password: cryptPassword,
-				roles: role._id,
+				roles: [role._id],
 			});
 
 			await user.save();

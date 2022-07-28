@@ -2,22 +2,21 @@ const express = require('express');
 const router = express.Router();
 const app = express();
 const { check, validationResult } = require('express-validator');
-const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const normalize = require('normalize-url');
 const auth = require('../middleware/auth');
 const connect = require('../functions/db');
 const captcha = require('../middleware/captcha');
-const sendMail = require('../functions/sendResetMail');
 router.use(express.json());
 const cors = require('cors');
+const captcha = require('../middleware/captcha');
 
 require('dotenv').config();
 // get usermodel
-const User = require('../models/user.model');
-const Token = require('../models/resettoken.model');
-const { append } = require('vary');
+const db = require('../models');
+const User = db.user;
+const Token = db.resettoken;
+const Role = db.role;
 app.use(cors());
 
 // get usermodel
@@ -45,22 +44,30 @@ router.post(
 		check('email', 'Please enter a valid email').isEmail(),
 		check('password', 'Password is required').exists(),
 	],
+	captcha,
+	apiLimiter(2, 2),
 	async (req, res) => {
-		const errors = validationResult(req);
+		const errors = validationResult(req.body.data);
+		console.log('er inne');
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
-		const { email, password } = req.body;
+		console.log('er for bi førtse error');
+		const { email, password } = req.body.data;
+		console.log(email);
 
 		try {
 			// See if user exists
-			let user = await User.findOne({ email });
+			connect();
+
+			const user = await User.findOne({ email }).populate('roles', '-__v');
+			console.log(user);
 			if (!user) {
 				return res
 					.status(400)
 					.json({ errors: [{ msg: 'Invalid credentials' }] });
 			}
-
+			console.log('er forbi finn bruker');
 			// check password
 			const isMatch = await bcrypt.compare(password, user.password);
 
@@ -69,33 +76,42 @@ router.post(
 					.status(400)
 					.json({ errors: [{ msg: 'Invalid credentials' }] });
 			}
+			/*
 			var roles = [];
-			user.roles.map((i) => {
-				roles.push('ROLE_' + i.name.toUpperCase());
+			const rol = user.roles.map((i) => {
+				const role = Role.findById(i);
+				roles.push(role.id);
 			});
+			*/
+
+			var authorities = [];
+			for (let i = 0; i < user.roles.length; i++) {
+				authorities.push('ROLE_' + user.roles[i].name);
+			}
 			// Retur json webtoken
 			const payload = {
 				user: {
-					id: user.id,
+					id: user._id,
 				},
 			};
-			jwt.sign(
-				payload,
-				config.get('jwtSecret'),
-				{
-					expiresIn: 360000,
-				},
-				(err, token) => {
-					if (err) throw err;
-					res.json({
-						accessToken: token,
-						UserId: user.id,
-						name: user.name,
-						email: user.email,
-						Roles:roles,
-					});
-				}
-			);
+			const secret = process.env.JWT_SECRET;
+			const token = jwt.sign(payload, secret, {
+				expiresIn: 360000,
+			});
+			console.log({
+				accessToken: token,
+				UserId: user._id,
+				name: user.name,
+				email: user.email,
+				Roles: authorities,
+			});
+			res.json({
+				accessToken: token,
+				UserId: user._id,
+				name: user.name,
+				email: user.email,
+				Roles: authorities,
+			});
 		} catch (err) {
 			console.error(err);
 			res.status(500).send('Server error');
