@@ -39,13 +39,13 @@ router.get('/', auth, async (req, res) => {
 router.post(
 	'/',
 	[
-		body('email', 'Please enter a valid email').isEmail(),
-		body('password', 'Password is required').exists(),
+		check('email', 'Please enter a valid email').isEmail(),
+		check('password', 'Password is required').exists(),
 	],
 	captcha,
 	apiLimiter(2, 2),
 	async (req, res) => {
-		const errors = validationResult(req.body.data);
+		const errors = validationResult(req.body);
 		console.log('er inne');
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
