@@ -46,7 +46,7 @@ router.post(
 		check('password', 'Password is required').exists(),
 	],
 	//captcha,
-	apiLimiter(2, 2),
+	apiLimiter(10, 2),
 	async (req, res) => {
 		const errors = validationResult(req.body);
 		console.log('er inne');
