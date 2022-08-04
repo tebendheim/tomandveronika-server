@@ -39,6 +39,7 @@ const login = require('./login');
 const forgotPassword = require('./forgotpassword');
 const register = require('./register');
 const test = require('./test');
+const userController = require('./user.controller');
 
 require('dotenv').config();
 app.use(helmet());
@@ -54,14 +55,15 @@ app.use('/api/sendgrid', sendgrid);
 app.use('/api/sendinblue', sendinblue);
 app.use('/api/login', login);
 app.use('/api/register', register);
-app.use('/api/test', test);
+app.use('/api/newRole', test);
 app.use('/api/forgotpassword', forgotPassword);
+app.use('/api', userController);
 
 app.use('/api', router);
 // path must route to lambda
 
 app.set('trust proxy', 1);
-
+/*
 function initial() {
 	Role.estimatedDocumentCount((err, count) => {
 		if (!err && count === 0) {
@@ -91,7 +93,7 @@ function initial() {
 			});
 		}
 	});
-}
+}*/
 
 module.exports = app;
 module.exports.handler = serverless(app);

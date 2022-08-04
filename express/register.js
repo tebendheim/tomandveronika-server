@@ -103,7 +103,7 @@ router.post(
 				algorithm: 'HS256',
 				expiresIn: 360000,
 			});
-			res.json(mainToken);
+			res.json({ accessToken: mainToken });
 			return;
 		} catch (err) {
 			console.error(err);

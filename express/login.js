@@ -21,6 +21,7 @@ const Role = db.role;
 // @route    GET api/auth
 // @desc     Get user by token
 // @access   Private
+/*
 router.get('/', auth, async (req, res) => {
 	try {
 		const user = await User.findById(req.user.id).select('-password');
@@ -30,6 +31,8 @@ router.get('/', auth, async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+
+*/
 
 //@route    POST api/auth
 // @desc    register user
@@ -42,7 +45,7 @@ router.post(
 		check('email', 'Please enter a valid email').isEmail(),
 		check('password', 'Password is required').exists(),
 	],
-	captcha,
+	//captcha,
 	apiLimiter(2, 2),
 	async (req, res) => {
 		const errors = validationResult(req.body);
@@ -80,7 +83,7 @@ router.post(
 				const role = Role.findById(i);
 				roles.push(role.id);
 			});
-			*/
+			*/ //Dette skal ikke brukes
 
 			var authorities = [];
 			for (let i = 0; i < user.roles.length; i++) {
