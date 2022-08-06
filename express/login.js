@@ -77,13 +77,6 @@ router.post(
 					.status(400)
 					.json({ errors: [{ msg: 'Invalid credentials' }] });
 			}
-			/*
-			var roles = [];
-			const rol = user.roles.map((i) => {
-				const role = Role.findById(i);
-				roles.push(role.id);
-			});
-			*/ //Dette skal ikke brukes
 
 			var authorities = [];
 			for (let i = 0; i < user.roles.length; i++) {

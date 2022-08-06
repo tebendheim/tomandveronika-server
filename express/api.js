@@ -41,6 +41,7 @@ const register = require('./register');
 const test = require('./test');
 const userController = require('./user.controller');
 const addrole = require('./addrole');
+const getusers = require('./getusers');
 
 require('dotenv').config();
 app.use(helmet());
@@ -60,6 +61,7 @@ app.use('/api/newRole', test);
 app.use('/api/forgotpassword', forgotPassword);
 app.use('/api', userController);
 app.use('/api', addrole);
+app.use('/api', getusers);
 
 app.use('/api', router);
 // path must route to lambda
