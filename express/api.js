@@ -39,7 +39,7 @@ const login = require('./login');
 const forgotPassword = require('./forgotpassword');
 const register = require('./register');
 const test = require('./test');
-const userController = require('./user.controller');
+const userController = require('./userController');
 const addrole = require('./addrole');
 const getusers = require('./getusers');
 
