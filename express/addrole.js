@@ -71,114 +71,122 @@ router.get(
 );
 
 //test
-router.get('/adduserrole/:role/:user', async (req, res) => {
-	try {
-		connect(); // connecting to mongoose
-		const user = await User.findById(req.params.user).populate('roles', '-__v'); // finding user
-		const roles = await Role.find({
-			// finding all roles
-			name: { $in: ['admin', 'moderator', 'user'] },
-		});
-		if (req.params.role === 'role') {
-			// skal slette alle roller
-			// må legge til admin
-			roles.map((role) => {
-				if (user.roles.some((userRole) => role.name === userRole.name)) {
-					user.roles.pull(role);
-				}
+router.get(
+	'/adduserrole/:role/:user',
+	auth.verifyToken,
+	auth.isAdmin,
+	async (req, res) => {
+		try {
+			connect(); // connecting to mongoose
+			const user = await User.findById(req.params.user).populate(
+				'roles',
+				'-__v'
+			); // finding user
+			const roles = await Role.find({
+				// finding all roles
+				name: { $in: ['admin', 'moderator', 'user'] },
 			});
-			console.log(user);
-			user.save();
-			return res.json({ user: user, msg: 'success' });
-		}
+			if (req.params.role === 'role') {
+				// skal slette alle roller
+				// må legge til admin
+				roles.map((role) => {
+					if (user.roles.some((userRole) => role.name === userRole.name)) {
+						user.roles.pull(role);
+					}
+				});
+				console.log(user);
+				user.save();
+				return res.json({ user: user, msg: 'success' });
+			}
 
-		if (req.params.role === 'admin') {
-			//if requested role is admin
-			var exist = false;
-			user.roles.map((role) => {
-				// checking if user have the admin role
-				if (role.name === 'ROLE_admin') {
-					exist = true;
+			if (req.params.role === 'admin') {
+				//if requested role is admin
+				var exist = false;
+				user.roles.map((role) => {
+					// checking if user have the admin role
+					if (role.name === 'ROLE_admin') {
+						exist = true;
+					}
+				});
+				if (exist) {
+					return res.json('rolle eksisterer');
 				}
-			});
-			if (exist) {
-				return res.json('rolle eksisterer');
-			}
-			// må legge til alle roller
-			roles.map((role) => {
-				if (!user.roles.some((userRole) => role.name === userRole.name)) {
-					user.roles.push(role);
-				}
-			});
-			console.log(user);
-			user.save();
-			return res.json({ user: user, msg: 'success' });
-		}
-		if (req.params.role === 'moderator') {
-			//if requested role is moderator
-			var exist = false;
-			user.roles.map((role) => {
-				// checking if user have the admin role
-				if (role.name === 'ROLE_moderator') {
-					exist = true;
-				}
-			});
-			if (exist) {
-				return res.json('rolle eksisterer');
-			}
-			// må legge til admin
-			roles.map((role) => {
-				if (role.name !== 'admin') {
+				// må legge til alle roller
+				roles.map((role) => {
 					if (!user.roles.some((userRole) => role.name === userRole.name)) {
 						user.roles.push(role);
 					}
-				} else {
-					if (user.roles.some((userRole) => role.name === userRole.name)) {
-						user.roles.pull(role);
-					}
-				}
-			});
-			console.log(user);
-			user.save();
-			return res.json({ user: user, msg: 'success' });
-		}
-		if (req.params.role === 'user') {
-			//if requested role is user
-			var exist = false;
-			user.roles.map((role) => {
-				// checking if user have the admin role
-				if (role.name === 'ROLE_user') {
-					exist = true;
-				}
-			});
-			if (exist) {
-				return res.json('rolle eksisterer');
+				});
+				console.log(user);
+				user.save();
+				return res.json({ user: user, msg: 'success' });
 			}
-			// må legge til admin
-			roles.map((role) => {
-				if (role.name === 'admin' || role.name === 'moderator') {
-					if (user.roles.some((userRole) => role.name === userRole.name)) {
-						user.roles.pull(role);
+			if (req.params.role === 'moderator') {
+				//if requested role is moderator
+				var exist = false;
+				user.roles.map((role) => {
+					// checking if user have the admin role
+					if (role.name === 'ROLE_moderator') {
+						exist = true;
 					}
-				} else {
-					if (!user.roles.some((userRole) => role.name === userRole.name)) {
-						user.roles.push(role);
-					}
+				});
+				if (exist) {
+					return res.json('rolle eksisterer');
 				}
-			});
-			console.log(user);
-			user.save();
-			return res.json({ user: user, msg: 'success' });
+				// må legge til admin
+				roles.map((role) => {
+					if (role.name !== 'admin') {
+						if (!user.roles.some((userRole) => role.name === userRole.name)) {
+							user.roles.push(role);
+						}
+					} else {
+						if (user.roles.some((userRole) => role.name === userRole.name)) {
+							user.roles.pull(role);
+						}
+					}
+				});
+				console.log(user);
+				user.save();
+				return res.json({ user: user, msg: 'success' });
+			}
+			if (req.params.role === 'user') {
+				//if requested role is user
+				var exist = false;
+				user.roles.map((role) => {
+					// checking if user have the admin role
+					if (role.name === 'ROLE_user') {
+						exist = true;
+					}
+				});
+				if (exist) {
+					return res.json('rolle eksisterer');
+				}
+				// må legge til admin
+				roles.map((role) => {
+					if (role.name === 'admin' || role.name === 'moderator') {
+						if (user.roles.some((userRole) => role.name === userRole.name)) {
+							user.roles.pull(role);
+						}
+					} else {
+						if (!user.roles.some((userRole) => role.name === userRole.name)) {
+							user.roles.push(role);
+						}
+					}
+				});
+				console.log(user);
+				user.save();
+				return res.json({ user: user, msg: 'success' });
+			}
+			if (!roles.some((role) => role.name === req.params.role)) {
+				// checking if roles requested exist in roles
+				return res.json('role does not exist');
+			}
+		} catch (err) {
+			console.log(err);
+			return res.json({ msg: 'An error occured!', error: err });
 		}
-		if (!roles.some((role) => role.name === req.params.role)) {
-			// checking if roles requested exist in roles
-			return res.json('role does not exist');
-		}
-	} catch (err) {
-		console.log(err);
-		return res.json({ msg: 'An error occured!', error: err });
 	}
-});
+);
 
 module.exports = router;
 

@@ -11,9 +11,9 @@ router.use(express.json());
 
 let count = 0;
 
-router.get('/', apiLimiter(2, 2), (request, response) => {
-	count++;
-	response.json(count);
+router.post('/', (request, response) => {
+	console.log(request);
+	return response.json(request.body);
 });
 
 module.exports = router;
