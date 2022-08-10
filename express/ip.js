@@ -19,7 +19,8 @@ router.post('/', (req, res) => {
 	console.log(ip);
 	const session = new Session({ ip: ip });
 	await session.save()
-	res.json('ok?');
+	res.json(session);
+	console.log(session)
 	return;
 });
 
